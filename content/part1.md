@@ -17,18 +17,15 @@ draft = false
 # If set, it cannot be an empty string and will override both `slug` and the filename.
 # The sections' path won't be used.
 # It should not start with a `/` and the slash will be removed if it does.
-path = "/Welcome"
+path = "index"
 
 in_search_index = true
 template = "page.html"
 [extra]
-# Put all your custom variables here
+external_links_target_blank = true
 author="The Sharp Ninja"
+
 +++
-
-# The .NET Developer's Guide to Rust
-
-#### Or How to Get There From Here
 
 ## Get Ready!
 

@@ -85,6 +85,8 @@ code {
 .sidebar {
     width: 100%;
     display: none;
+    font-size: large;
+    line-height: normal;
     @media screen and (min-width: 900px) {
         width: 35%;
         float: left;
@@ -92,7 +94,7 @@ code {
     }
     h3 {
         margin: 0 0 5px;
-        padding: 0 5px 5px;
+        padding: 10px 5px 5px;
         color: $color-black;
         border-bottom: 1px solid $color-lgrey;
     }

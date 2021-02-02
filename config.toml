@@ -76,11 +76,15 @@ label_minutes = "minutes"
 
 ## Sidebar automatic links
 sidebar = [
-    {name = "Social", urls=[
+    {name="Rust Resources", urls=[
+        {name="Rust Language", url="https://www.rust-lang.org/"},
+        {name="Rust Playground", url="https://play.rust-lang.org/"},
+        {name="Rust on Discord", url="https://discord.gg/aVESxV8"},
+        {name="Rust on Reddit", url="https://www.reddit.com/r/rust/"},
+        {name="Awesome Rust", url="https://github.com/kud1ing/awesome-rust"},
+    ]},
+    {name = "Social Media", urls=[
         {name="Medium", url="https://medium.com/the-unpopular-opinions-of-a-senior-developer"},
         {name="Github", url="https://github.com/gatewayprogrammingschool/Rust-For-CSharp-Developers"},
     ]},
-    {name="Rust Resources", urls=[
-        {name="Rust Language", url="https://www.rust-lang.org/"},
-    ]}
 ]
