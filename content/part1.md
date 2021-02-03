@@ -165,7 +165,7 @@ You'll notice that `decimal` is not listed.  Rust does not currently include a l
 
 ### Strings
 
-`Strings `are something that .NET Framework nailed on day 1.  Since the beginning of C#, `Strings` have been internally represented as full Unicode character arrays that are immutable.  The `StringBuilder `class has always been around for doing proper string manipulation from the beginning.  Strings in C# are always a reference type, meaning you never get direct access to it, all you can do is request a copy of it or feed the reference to something else.  Operations on strings in C# always result in a new `string` (except when using `StringBuilder`).
+`Strings` are something that .NET Framework nailed on day 1.  Since the beginning of C#, `Strings` have been internally represented as full Unicode (UTF-16, UTF-32 didn't exist when C# was created) character arrays that are immutable.  The `StringBuilder` class has always been around for doing proper string manipulation from the beginning.  `Strings` in C# are always a reference type, meaning you never get direct access to it, all you can do is request a copy of it or feed the reference to something else.  Operations on strings in C# always result in a new `string` (except when using `StringBuilder`, which is why `StringBuilder` exists).
 
 In Rust, there are **two** string types.  The first, declared as `&str` is very much like a .NET Framework `string`.  String literals are always of this type.  
 
@@ -174,9 +174,9 @@ let my_string = "My String";
 // my_string has type of &str	
 ```
 
-One major difference is that internally, Rust represent strings with UTF-8 instead of straight Unicode.  This means that strings are more memory efficient in Rust at the expense of higher overhead for interpreting individual characters.  Whereas you can calculate a character in a C# string from an offset into the string's memory, with Rust you must first tokenize the byte array to a char array.
+One major difference is that internally, Rust represents strings with UTF-8 instead of Unicode (UTF-16).  This means that strings are more memory efficient in Rust at the expense of higher overhead for interpreting individual characters.  Whereas you can calculate a character in a C# string from an offset into the string's memory, with Rust you must first tokenize the byte array to a char array because UTF-8 is a variable-sized construct where a character may be defined by one to four bytes.
 
-The second type is `String`, which actually behaves like the C# `StringBuilder` class.  If you are assembling strings on the fly you use this type.  One major difference between C# and Rust is that the output of `ToString()` and `to_string()` are opposites.  The .NET `ToString()` method on all objects returns an immutable `string`.  The `to_string()` method found on many Rust objects returns `String`, not the immutable `&str`.  As a matter of fact, you can get a `String` from a `&str` in two ways.
+The second type in Rust is `String`, which actually behaves like the C# `StringBuilder` class.  If you are assembling strings on the fly you use this type.  One major difference between C# and Rust is that the output of `ToString()` and `to_string()` are opposites.  The .NET `ToString()` method on all objects returns an immutable `string`.  The `to_string()` method found on most Rust objects returns `String`, not the immutable `&str`.  As a matter of fact, you can get a `String` from a `&str` in two ways.
 
 ```rust
 let mut s = "Template {{0}}".to_string();
@@ -185,7 +185,7 @@ let mut s = String::new("Template {{0}}");
 
 ### String Formatting
 
-One of the best feature of .NET is string formatting and string interpolation.  C# has always rich support for formatting strings using the `string.Format` method and passing formatters to the `ToString` method of numeric types.  Now, interpolated strings allow using formatted string anywhere that accepts a string.
+One of the best features of .NET is string formatting and string interpolation.  C# has always rich support for formatting strings using the `string.Format` method and passing formatters to the `ToString` method of numeric types.  Now, interpolated strings allow using a formatted string anywhere that accepts a string.
 
 Things are a little different in Rust.  Instead of using a simple method of the `String` object to format strings, you use a system supplied macro called `format!` which outputs a `&str`.  The syntax is familiar, though.
 
@@ -210,7 +210,7 @@ println!("Range: {:?}", (1..11).collect::<Vec<_>>());
 
 ## Collections
 
-`Vector` is the primary collection used in Rust.  Vectors are strongly typed and Rust's strong type system is normally used to define the type of a `Vector's` contents.
+`Vector` is the primary collection used in Rust.  Vectors are strongly typed and Rust's strong type system is normally used to define the type of a `Vector's` contents via generics.
 
 ```rust
 // Create a vector of &str values
@@ -227,7 +227,7 @@ OUTPUT:
 ]
 ```
 
-Notice that I added the `mut` keyword to the vector's declaration.  This means that the vector is mutable and thus more values can be added.
+Notice that I added the `mut` keyword to the vector's declaration.  This means that the vector is mutable and thus more values can be added.  Without this, attempting to add to the vector generates a compile-time error.
 
 ```rust
 // Create a vector of &str values
@@ -303,11 +303,11 @@ Wait a minute!  What's with the `Some("P")`?  That is one of the great features 
 [] - None
 ```
 
-Now we don't have to worry about `null` values causing error, or attempting to reference a null pointer.  It's impossible.  Notice there's no value type on `None` just for this reason.  We'll talk more about `Option<T>` when we discussion program flow control.
+Now we don't have to worry about `null` values causing errors, or attempting to reference a null pointer.  It's impossible.  Notice there's no value type on `None` just for this reason.  We'll talk more about `Option<T>` when we discussion program flow control.
 
 ### Iterators
 
-In .NET, all collections implement `IEnumerable`, even arrays.  `IEnumerable` is the basis for all iterating of collections via `foreach` and Linq.  Rust doesn't have a direct analogous concept as `IEnumerable`, but there is something similar with `Iterator`.   Let's look at an `Iterator` in action.
+In .NET, all collections implement `IEnumerable`, even arrays.  `IEnumerable` is the basis for all iterating of collections via `foreach` and Linq.  Rust does have a direct analogous concept to `IEnumerable`, it is the `IntoIterator` trait.   Let's look at `IntoIterator` in action.
 
 ```rust
 let values = vec![1, 2, 3, 4, 5];
@@ -317,7 +317,7 @@ for x in values {
 }
 ```
 
-`Values` is a `Vector`, which implements the trait `IntoIterator`.  What's a trait?  Traits are like interfaces in C#.  They define contracts that objects must implement.  The difference is that traits are implemented independently of the object.  In C#, classes implementing `IEnumerable` must implement `GetEnumerator()` in their class.  In Rust, Traits are implemented on a separate `struct`.
+`Values` is a `Vector`, which implements the trait `IntoIterator`.  What's a trait?  Traits are like interfaces in C#.  They define contracts that objects may implement, or objects may use the default implementation of the trait, like default implementations in C# 9 interfaces.  The difference is that traits are implemented independently of the object.  In C#, classes implementing `IEnumerable` must implement `GetEnumerator()` in their class.  In Rust, Traits are implemented on a separate scope using the `impl` keyword.
 
 ```rust
 impl Iterator for Counter {
@@ -339,6 +339,18 @@ impl Iterator for Counter {
 }	
 ```
 
-Here we have an object named `Counter`, which has been previously defined in a `struct`.  We are implementing the  `Iterator` trait on `Counter` which adds the `next` method.  Notice our implementation has it's own instance variable?  This implementation is a closure that becomes "part" of the `Counter` object.  Just like objects in .NET are composed of closures, so are Rust objects as well.
+Here we have an object named `Counter`, which has been previously defined in a `struct`.  We are implementing the `Iterator` trait on `Counter` (the return type of the `into_iter()` method from the `IntoIterator` trait) which adds the `next` method.  Notice our implementation has it's own instance variable?  This implementation is a closure that becomes "part" of the `Counter` object.  Just like objects in .NET are composed of closures, so are Rust objects as well.
 
 However, traits are different from C# Extension Methods because they are part of the instance of the object thet they are attached to whereas Extension Methods are always static and you must pass the instance to them and they can only access the public members of the attached object.
+
+## Member Accessibility
+
+A very important point for code hygeine and code security is the accessibility of members of objects.
+
+| C# | Rust | What it does |
+|=--|=--|=--|
+| `public` | `pub` | Makes the object or member accessible to all other scopes. |
+| `protected` | N/A | Makes the object or member accessible to sub-types.  Rust does not have this concept. |
+| `internal` | `pub(crate)` | Makes the object or member accessible to all other scopes within the same binary library (assembly or crate). |
+| `private` | N/A | Makes the object or member accessible only within the scope of the containing object.  Rust does not have this concept. |
+| N/A | No Modifier | Makes the object or member accessible only within the Module containing the object.  C# does not have this concept. |
