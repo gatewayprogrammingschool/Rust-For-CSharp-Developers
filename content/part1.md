@@ -180,7 +180,7 @@ The second type in Rust is `String`, which actually behaves like the C# `StringB
 
 ```rust
 let mut s = "Template {{0}}".to_string();
-let mut s = String::new("Template {{0}}");
+let mut s = String::from("Template {{0}}");
 ```
 
 ### String Formatting
@@ -350,7 +350,9 @@ A very important point for code hygeine and code security is the accessibility o
 | C# | Rust | What it does |
 |---|---|---|
 | `public` | `pub` | Makes the object or member accessible to all other scopes. |
-| `protected` | N/A | Makes the object or member accessible to sub-types.  Rust does not have this concept. |
+| `protected` | N/A | Makes the object or member accessible to sub-types.  Rust does not have this concept because there is no direct inheritence. |
 | `internal` | `pub(crate)` | Makes the object or member accessible to all other scopes within the same binary library (assembly or crate). |
 | `private` | N/A | Makes the object or member accessible only within the scope of the containing object.  Rust does not have this concept. |
 | N/A | No Modifier | Makes the object or member accessible only within the Module containing the object.  C# does not have this concept. |
+
+Essentially, in Rust the concept of a module is analogous to a namespace in C#, but where the concept of `private` applies to the individual objects of the namespace, in Rust the lack of a modifier scopes acessibility to the entirity of the module that the object or function is defined in.
