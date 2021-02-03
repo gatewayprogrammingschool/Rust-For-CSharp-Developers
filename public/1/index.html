@@ -364,13 +364,13 @@ println!(</span><span style="color:#d69d85;">&quot;</span><span style="color:#b4
 <p>However, traits are different from C# Extension Methods because they are part of the instance of the object thet they are attached to whereas Extension Methods are always static and you must pass the instance to them and they can only access the public members of the attached object.</p>
 <h2 id="member-accessibility">Member Accessibility</h2>
 <p>A very important point for code hygeine and code security is the accessibility of members of objects.</p>
-<p>| C# | Rust | What it does |
-|=–|=–|=–|
-| <code>public</code> | <code>pub</code> | Makes the object or member accessible to all other scopes. |
-| <code>protected</code> | N/A | Makes the object or member accessible to sub-types.  Rust does not have this concept. |
-| <code>internal</code> | <code>pub(crate)</code> | Makes the object or member accessible to all other scopes within the same binary library (assembly or crate). |
-| <code>private</code> | N/A | Makes the object or member accessible only within the scope of the containing object.  Rust does not have this concept. |
-| N/A | No Modifier | Makes the object or member accessible only within the Module containing the object.  C# does not have this concept. |</p>
+<table><thead><tr><th>C#</th><th>Rust</th><th>What it does</th></tr></thead><tbody>
+<tr><td><code>public</code></td><td><code>pub</code></td><td>Makes the object or member accessible to all other scopes.</td></tr>
+<tr><td><code>protected</code></td><td>N/A</td><td>Makes the object or member accessible to sub-types.  Rust does not have this concept.</td></tr>
+<tr><td><code>internal</code></td><td><code>pub(crate)</code></td><td>Makes the object or member accessible to all other scopes within the same binary library (assembly or crate).</td></tr>
+<tr><td><code>private</code></td><td>N/A</td><td>Makes the object or member accessible only within the scope of the containing object.  Rust does not have this concept.</td></tr>
+<tr><td>N/A</td><td>No Modifier</td><td>Makes the object or member accessible only within the Module containing the object.  C# does not have this concept.</td></tr>
+</tbody></table>
 
     </div>
 </article>

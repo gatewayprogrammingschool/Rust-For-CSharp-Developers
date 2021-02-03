@@ -348,7 +348,7 @@ However, traits are different from C# Extension Methods because they are part of
 A very important point for code hygeine and code security is the accessibility of members of objects.
 
 | C# | Rust | What it does |
-|=--|=--|=--|
+|---|---|---|
 | `public` | `pub` | Makes the object or member accessible to all other scopes. |
 | `protected` | N/A | Makes the object or member accessible to sub-types.  Rust does not have this concept. |
 | `internal` | `pub(crate)` | Makes the object or member accessible to all other scopes within the same binary library (assembly or crate). |
